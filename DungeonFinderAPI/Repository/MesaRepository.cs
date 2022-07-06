@@ -15,45 +15,44 @@ namespace DungeonFinderAPI.Repository
             _config = configuration;
         }
 
-        public IEnumerable<MesaResponse> getMesas(MesaRequest request)
+        public ListResponse<MesaResponse> getMesas(MesaRequest request)
         {
-            IEnumerable<MesaResponse> response = new List<MesaResponse>();
+            ListResponse<MesaResponse> response = new ListResponse<MesaResponse>();
 
             using (SqlConnection conexao = new SqlConnection(
                 _config.GetConnectionString("DefaultConnection")))
             {
                
 
-                string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores,  count(jm.IdJogador) as QtdJogadores, s.Nome as Sistema, j.Nome as Mestre
+                string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, j.Nome as Mestre
                         FROM Mesa m
                         INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                         INNER JOIN Jogador j on(j.idJogador = m.idMestre)
-                        INNER JOIN JogadorNaMesa jm on (jm.idMesa = m.idMesa)
                         where (m.IdMesa = @IdMesa or @IdMesa = 0)
                         group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, j.Nome";
 
                 try
                 {
                     conexao.Open();
-                    response = conexao.Query<MesaResponse>(query,param: new { request.IdMesa }, commandTimeout: 20).ToList();
+                    List<MesaResponse> itens = conexao.Query<MesaResponse>(query,param: new { request.IdMesa }, commandTimeout: 20).ToList();
 
-                    if (response == null)
+                    if (itens != null && itens.Count > 0)
                     {
-                        var response2 = new MesaResponse();
-                        response2.ErrorCode = 404;
-                        response2.Message = "Nenhuma Mesa encontrada";
+                        response.ErrorCode = 0;
+                        response.Items = itens; 
+                        
                     }
                     else
                     {
-                        
+                        response.ErrorCode = 404;
+                        response.Message = "Nenhuma Mesa encontrada";
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    var response2 = new MesaResponse();
-                    response2.ErrorCode = 404;
-                    response2.Message = "Nenhuma Mesa encontrada";
+                    response.ErrorCode = 500;
+                    response.Message = "Erro ao conectar ao banco de dados";
                 }
                 finally
                 {
@@ -70,12 +69,10 @@ namespace DungeonFinderAPI.Repository
                 _config.GetConnectionString("DefaultConnection")))
             {
                 
-                string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores,  count(IdJogador) as QtdJogadores
-                        where IdMesa = @mesaId) as QtdJogadores, s.Nome as Sistema, j.Nome as Mestre
+                string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, j.Nome as Mestre
                         FROM Mesa m
                         INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                         INNER JOIN Jogador j on(j.idJogador = m.idMestre)
-                        INNER JOIN JogadorNaMesa jm on(jm.idmesa = m.idmesa)
                         where m.IdMesa = @mesaId";
 
                 try
@@ -112,9 +109,98 @@ namespace DungeonFinderAPI.Repository
             }
         }
 
-        public List<MesaResponse> getMesa(MesaRequest request)
+        public ListResponse<JogadorNaMesaResponse> getJogadoresNaMesa(int idMesa)
         {
-            throw new NotImplementedException();
+            ListResponse<JogadorNaMesaResponse> response = new ListResponse<JogadorNaMesaResponse>();
+
+            using (SqlConnection conexao = new SqlConnection(
+                _config.GetConnectionString("DefaultConnection")))
+            {
+
+
+                string query = @"Select j.idJogador, j.Nome, j.email from Jogador j
+                                INNER JOIN jogadorNaMesa jm on (jm.IdJogador = j.IdJogador)
+                                where jm.idMesa = @idMesa";
+
+                try
+                {
+                    conexao.Open();
+                    List<JogadorNaMesaResponse> itens = conexao.Query<JogadorNaMesaResponse>(query, param: new { idMesa }, commandTimeout: 20).ToList();
+
+                    if (itens != null && itens.Count > 0)
+                    {
+                        response.ErrorCode = 0;
+                        response.Items = itens;
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 404;
+                        response.Message = "Nenhuma Jogador encontrado";
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response.ErrorCode = 500;
+                    response.Message = "Erro ao conectar ao banco de dados";
+                }
+                finally
+                {
+                    conexao.Close();
+                }
+            }
+            return response;
+        }
+
+        public BaseResponse createMesa(MesaCreateRequest request)
+        {
+            BaseResponse response = new BaseResponse();
+
+            using (SqlConnection conexao = new SqlConnection(
+                _config.GetConnectionString("DefaultConnection")))
+            {
+
+
+                string query = @"insert into Mesa (nome, descricao, quantidadeMaxJogadres, idMestre, idSistema) 
+                                values (@Nome, @descricao, @qtdMaxJogadores, @idMestre, @idSistema)";
+
+                try
+                {
+                    conexao.Open();
+                    int rows = conexao.Execute(query, param: new { 
+                        request.Nome,
+                        request.Descricao,
+                        request.QtdMaxJogadores,
+                        request.idMestre,
+                        request.idSistema
+
+                    }, commandTimeout: 20);
+
+                    if (rows > 0)
+                    {
+                        response.ErrorCode = 201;
+                        response.Message = "Mesa criada!";
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 400;
+                        response.Message = "Erro ao criar Mesa";
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    response.ErrorCode = 500;
+                    response.Message = "Erro ao conectar ao banco de dados";
+                }
+                finally
+                {
+                    conexao.Close();
+                }
+            }
+            return response;
         }
     }
 }

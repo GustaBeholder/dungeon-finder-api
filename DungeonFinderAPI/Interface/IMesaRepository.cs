@@ -6,6 +6,8 @@ namespace DungeonFinderAPI.Interface
     public interface IMesaRepository
     {
         MesaResponse getMesaDetails(int mesaId);
-        IEnumerable<MesaResponse> getMesas(MesaRequest request);
+        BaseResponse createMesa(MesaCreateRequest request);
+        ListResponse<MesaResponse> getMesas(MesaRequest request);
+        ListResponse<JogadorNaMesaResponse> getJogadoresNaMesa(int idMesa); 
     }
 }

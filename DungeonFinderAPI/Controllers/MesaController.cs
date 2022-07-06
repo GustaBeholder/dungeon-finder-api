@@ -33,11 +33,42 @@ namespace DungeonFinderAPI.Controller
         }
 
         [HttpPost("GetMesa")]
+        [ProducesResponseType(typeof(MesaResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetMesas([FromBody] MesaRequest request)
         {
             var response = _mesaRepository.getMesas(request);
 
-            return Ok(response);
+            if(response.Items != null) return Ok(response.Items);
+
+            return BadRequest(response);
+
+        }
+
+        [HttpGet("GetJogadoresNaMesa/{idMesa}")]
+        [ProducesResponseType(typeof(JogadorNaMesaResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult GetJogadoresNaMesa(int idMesa)
+        {
+            var response = _mesaRepository.getJogadoresNaMesa(idMesa);
+
+            if (response.Items != null) return Ok(response.Items);
+
+            return BadRequest(response);
+
+        }
+
+        [HttpPost("CreateMesa")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult GetMesas([FromBody] MesaCreateRequest request)
+        {
+            var response = _mesaRepository.createMesa(request);
+
+            if (response.ErrorCode == 201) return Ok(response);
+
+            return BadRequest(response);
+
         }
     }
 }

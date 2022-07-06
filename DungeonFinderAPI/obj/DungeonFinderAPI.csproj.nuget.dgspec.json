@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aluno\\OneDrive\\Documentos\\DungeonFinder\\DungeonFinder\\DungeonFinderAPI\\DungeonFinderAPI.csproj": {}
+    "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderAPI\\DungeonFinderAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aluno\\OneDrive\\Documentos\\DungeonFinder\\DungeonFinder\\DungeonFinderAPI\\DungeonFinderAPI.csproj": {
+    "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderAPI\\DungeonFinderAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aluno\\OneDrive\\Documentos\\DungeonFinder\\DungeonFinder\\DungeonFinderAPI\\DungeonFinderAPI.csproj",
+        "projectUniqueName": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderAPI\\DungeonFinderAPI.csproj",
         "projectName": "DungeonFinderAPI",
-        "projectPath": "C:\\Users\\Aluno\\OneDrive\\Documentos\\DungeonFinder\\DungeonFinder\\DungeonFinderAPI\\DungeonFinderAPI.csproj",
-        "packagesPath": "C:\\Users\\Aluno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aluno\\OneDrive\\Documentos\\DungeonFinder\\DungeonFinder\\DungeonFinderAPI\\obj\\",
+        "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderAPI\\DungeonFinderAPI.csproj",
+        "packagesPath": "C:\\Users\\bk_dese_99\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Aluno\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\bk_dese_99\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,8 +25,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://nuget.org": {},
-          "https://www.nuget.org/api/v2/curated-feeds/microsoftdotnet/": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/bk-bank/TI/_packaging/bkbank-oficial/nuget/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -76,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }
