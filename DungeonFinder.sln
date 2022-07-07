@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonFinderAPI", "DungeonFinderAPI\DungeonFinderAPI.csproj", "{6D2C8F6A-1FAA-469A-9B65-E135B9F8AD81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeonFinderAPI", "DungeonFinderAPI\DungeonFinderAPI.csproj", "{6D2C8F6A-1FAA-469A-9B65-E135B9F8AD81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonFinderDomain", "DungeonFinderDomain\DungeonFinderDomain.csproj", "{31F2DB2A-7245-4F85-94F7-C7E6477E194A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6D2C8F6A-1FAA-469A-9B65-E135B9F8AD81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D2C8F6A-1FAA-469A-9B65-E135B9F8AD81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D2C8F6A-1FAA-469A-9B65-E135B9F8AD81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31F2DB2A-7245-4F85-94F7-C7E6477E194A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31F2DB2A-7245-4F85-94F7-C7E6477E194A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31F2DB2A-7245-4F85-94F7-C7E6477E194A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31F2DB2A-7245-4F85-94F7-C7E6477E194A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

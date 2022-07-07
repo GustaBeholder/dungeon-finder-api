@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 string connString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 //Dependency Injection
-builder.Services.AddSingleton<IMesaRepository, MesaRepository>();
+builder.Services.AddScoped<IMesaRepository, MesaRepository>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
