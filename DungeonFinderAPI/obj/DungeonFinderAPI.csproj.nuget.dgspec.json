@@ -31,7 +31,14 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj": {
+                "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj"
+              },
+              "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\DungeonFinderInfra.csproj": {
+                "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\DungeonFinderInfra.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -71,6 +78,140 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj",
+        "projectName": "DungeonFinderDomain",
+        "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj",
+        "packagesPath": "C:\\Users\\bk_dese_99\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\bk_dese_99\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/bk-bank/TI/_packaging/bkbank-oficial/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\DungeonFinderInfra.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\DungeonFinderInfra.csproj",
+        "projectName": "DungeonFinderInfra",
+        "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\DungeonFinderInfra.csproj",
+        "packagesPath": "C:\\Users\\bk_dese_99\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderInfra\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\bk_dese_99\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/bk-bank/TI/_packaging/bkbank-oficial/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj": {
+                "projectPath": "C:\\Users\\bk_dese_99\\Documents\\Curso\\DungeonFinderDomain\\DungeonFinderDomain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

@@ -1,7 +1,8 @@
-﻿using DungeonFinderAPI.Interface;
-using DungeonFinderAPI.Model.Requests;
-using DungeonFinderAPI.Model.Response;
+﻿
+using DungeonFinderDomain.Interface.Repository;
+using DungeonFinderDomain.Model.Response;
 using Microsoft.AspNetCore.Mvc;
+using DungeonFinderDomain.Model.Requests;
 
 namespace DungeonFinderAPI.Controller
 {
@@ -17,19 +18,14 @@ namespace DungeonFinderAPI.Controller
         }
         [HttpGet("GetMesa/{idMesa}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MesaResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type=  typeof(BaseResponse))]
         public IActionResult GetMesaDetails(int idMesa)
         {
             var response = _mesaRepository.getMesaDetails(idMesa);
 
-            if (response.IdMesa != 0) return Ok(response);
+            if (response.Response != null) return Ok(response);
 
-            var resp = new
-            {
-                response.ErrorCode,
-                response.Message
-            };
-            return BadRequest(resp);
+            return  BadRequest(response);
         }
 
         [HttpPost("GetMesa")]

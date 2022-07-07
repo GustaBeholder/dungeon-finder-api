@@ -1,4 +1,4 @@
-﻿namespace DungeonFinderAPI.Model.Requests
+﻿namespace DungeonFinderDomain.Model.Requests
 {
     public class MesaRequest
     {

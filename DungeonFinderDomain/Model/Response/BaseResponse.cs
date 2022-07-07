@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace DungeonFinderAPI.Model.Response
+﻿namespace DungeonFinderDomain.Model.Response
 {
     public class BaseResponse
     {

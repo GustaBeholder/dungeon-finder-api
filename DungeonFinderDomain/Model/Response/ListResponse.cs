@@ -1,4 +1,4 @@
-﻿namespace DungeonFinderAPI.Model.Response
+﻿namespace DungeonFinderDomain.Model.Response
 {
     public class ListResponse<T> : BaseResponse 
     {
