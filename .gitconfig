@@ -1,0 +1,5 @@
+[credential "http://git.bkbank.com.br"]
+	provider = generic
+[user]
+	name = Gustavo Pereira
+	email = gustavo.pereira@bkbank.com.br
