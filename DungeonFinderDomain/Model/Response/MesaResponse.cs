@@ -8,6 +8,8 @@
         public string QtdJogadores { get; set; }
         public string QtdMaxJogadores { get; set; }
         public string Sistema { get; set; }
+        public bool isAtivo { get; set; }
+        public int IdMestre { get; set; }
         public string Mestre { get; set; }
 
 

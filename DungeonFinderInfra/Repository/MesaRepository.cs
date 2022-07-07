@@ -19,18 +19,25 @@ namespace DungeonFinderInfra.Repository
             ListResponse<MesaResponse> response = new ListResponse<MesaResponse>();
 
 
-            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, j.Nome as Mestre
-                        FROM Mesa m
-                        INNER JOIN Sistema s on(s.idSistema = m.idSistema)
-                        INNER JOIN Jogador j on(j.idJogador = m.idMestre)
-                        where (m.IdMesa = @IdMesa or @IdMesa = 0)
-                        group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, j.Nome";
+            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
+                            m.isAtivo
+                            FROM Mesa m
+                            INNER JOIN Sistema s on(s.idSistema = m.idSistema)
+                            INNER JOIN Jogador j on(j.idJogador = m.idMestre)
+                            where (@IdMesa = 0 or m.IdMesa = @IdMesa )
+                            AND (@isAtivo < 0 or m.isAtivo = @isAtivo)
+                            group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, m.IdMestre ,j.Nome, m.isAtivo";
 
             try
             {
                 if (_session.OpenConnection())
                 {
-                    List<MesaResponse> itens = _session._connection.Query<MesaResponse>(query, param: new { request.IdMesa }, commandTimeout: 20).ToList();
+                    List<MesaResponse> itens = _session._connection.Query<MesaResponse>(query,
+                        param: new {
+                            request.IdMesa,
+                            request.isAtivo
+
+                        }, commandTimeout: 20).ToList();
 
                     if (itens != null && itens.Count > 0)
                     {
@@ -57,13 +64,13 @@ namespace DungeonFinderInfra.Repository
             return response;
         }
 
-
-
         public GenericResponse<MesaResponse> getMesaDetails(int idMesa)
         {
             GenericResponse<MesaResponse> response = new GenericResponse<MesaResponse>();
 
-            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, j.Nome as Mestre
+            string query = @"
+                        SELECT m.idMesa ,m.Nome, m.Descricao, (SELECT COUNT(idJogador) FROM JogadorNaMesa
+                        where idMesa = @mesaId) as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre, m.isAtivo
                         FROM Mesa m
                         INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                         INNER JOIN Jogador j on(j.idJogador = m.idMestre)
@@ -143,8 +150,8 @@ namespace DungeonFinderInfra.Repository
         {
             BaseResponse response = new BaseResponse();
 
-            string query = @"insert into Mesa (nome, descricao, quantidadeMaxJogadres, idMestre, idSistema) 
-                                values (@Nome, @descricao, @qtdMaxJogadores, @idMestre, @idSistema)";
+            string query = @"insert into Mesa (nome, descricao, quantidadeMaxJogadres, idMestre, idSistema, isAtivo) 
+                                values (@Nome, @descricao, @qtdMaxJogadores, @idMestre, @idSistema, 1)";
 
             try
             {
@@ -170,6 +177,137 @@ namespace DungeonFinderInfra.Repository
                     {
                         response.ErrorCode = 400;
                         response.Message = "Erro ao criar Mesa";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = 500;
+                response.Message = "Erro ao conectar ao banco de dados";
+            }
+            finally
+            {
+                _session.CloseConnection();
+            }
+            return response;
+        }
+
+        public BaseResponse insertJogadorNaMesa(JogadorNaMesaRequest request)
+        {
+            BaseResponse response = new BaseResponse();
+
+            string query = @"insert into JogadorNaMesa (idJogador, idMesa) 
+                                values (@idJogador, @idMesa)";
+            try
+            {
+                if (_session.OpenConnection())
+                {
+                    int rows = _session._connection.Execute(query, param: new
+                    {
+                        request.idJogador,
+                        request.idMesa
+
+                    }, commandTimeout: 20);
+
+                    if (rows > 0)
+                    {
+                        response.ErrorCode = 201;
+                        response.Message = "Jogador Adcionado!";
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 400;
+                        response.Message = "Erro ao Adcionar Jogador";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = 500;
+                response.Message = "Erro ao conectar ao banco de dados";
+            }
+            finally
+            {
+                _session.CloseConnection();
+            }
+            return response;
+        }
+
+        public BaseResponse updateMesa(UpdateMesa request)
+        {
+            BaseResponse response = new BaseResponse();
+
+            string query = @"UPDATE MESA SET Nome = @Nome, Descricao = @Descricao, 
+                            QuantidadeMaxJogadres = @QtdMaxJogadores, isAtivo = @isAtivo
+                             WHERE idMesa = @idMesa";
+            try
+            {
+                if (_session.OpenConnection())
+                {
+                    int rows = _session._connection.Execute(query, param: new
+                    {
+                        request.Nome,
+                        request.Descricao,
+                        request.QtdMaxJogadores,
+                        request.isAtivo, 
+                        request.IdMesa
+
+                    }, commandTimeout: 20);
+
+                    if (rows > 0)
+                    {
+                        response.ErrorCode = 201;
+                        response.Message = "Mesa Atualizada";
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 400;
+                        response.Message = "Erro ao Atualizar a Mesa";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = 500;
+                response.Message = "Erro ao conectar ao banco de dados";
+            }
+            finally
+            {
+                _session.CloseConnection();
+            }
+            return response;
+        }
+
+        public BaseResponse RemoveJogadorDaMesa(JogadorNaMesaRequest request)
+        {
+            BaseResponse response = new BaseResponse();
+
+            string query = @"DELETE FROM JogadorNaMesa
+                            WHERE idJogador = @idJogador
+                            AND idMesa = @idMesa";
+            try
+            {
+                if (_session.OpenConnection())
+                {
+                    int rows = _session._connection.Execute(query, param: new
+                    {
+                        request.idJogador,
+                        request.idMesa
+
+                    }, commandTimeout: 20);
+
+                    if (rows > 0)
+                    {
+                        response.ErrorCode = 201;
+                        response.Message = "Jogador Retirado da Mesa";
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 400;
+                        response.Message = "Erro ao Retirar Jogador";
                     }
                 }
             }

@@ -1,14 +1,13 @@
-using DungeonFinderDomain.Interface.Repository;
-using DungeonFinderInfra.DbConnect;
-using DungeonFinderInfra.Repository;
+using DungeonFinderAPI.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Dependency Injection
-builder.Services.AddScoped<DbSession>();
-builder.Services.AddScoped<IMesaRepository, MesaRepository>();
+builder.Services.DependencyInjection();
+
 // Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

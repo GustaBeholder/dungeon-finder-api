@@ -1,27 +1,27 @@
 ﻿
-using DungeonFinderDomain.Interface.Repository;
 using DungeonFinderDomain.Model.Response;
 using Microsoft.AspNetCore.Mvc;
 using DungeonFinderDomain.Model.Requests;
+using DungeonFinderDomain.Interface.Service;
 
 namespace DungeonFinderAPI.Controller
 {
     [ApiController]
-    [Route("Mesas")]
+    [Route("api/Mesas")]
     public class MesaController : ControllerBase
     {
-        private readonly IMesaRepository _mesaRepository;
+        private readonly IMesaService _mesaService;
 
-        public MesaController(IMesaRepository mesaRepository)
+        public MesaController(IMesaService mesaService)
         {
-            _mesaRepository = mesaRepository;
+            _mesaService = mesaService;
         }
         [HttpGet("GetMesa/{idMesa}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MesaResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type=  typeof(BaseResponse))]
         public IActionResult GetMesaDetails(int idMesa)
         {
-            var response = _mesaRepository.getMesaDetails(idMesa);
+            var response = _mesaService.getMesaDetails(idMesa);
 
             if (response.Response != null) return Ok(response);
 
@@ -33,7 +33,7 @@ namespace DungeonFinderAPI.Controller
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetMesas([FromBody] MesaRequest request)
         {
-            var response = _mesaRepository.getMesas(request);
+            var response = _mesaService.getMesas(request);
 
             if(response.Items != null) return Ok(response.Items);
 
@@ -46,7 +46,7 @@ namespace DungeonFinderAPI.Controller
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetJogadoresNaMesa(int idMesa)
         {
-            var response = _mesaRepository.getJogadoresNaMesa(idMesa);
+            var response = _mesaService.getJogadoresNaMesa(idMesa);
 
             if (response.Items != null) return Ok(response.Items);
 
@@ -59,12 +59,51 @@ namespace DungeonFinderAPI.Controller
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetMesas([FromBody] MesaCreateRequest request)
         {
-            var response = _mesaRepository.createMesa(request);
+            var response = _mesaService.createMesa(request);
 
             if (response.ErrorCode == 201) return Ok(response);
 
             return BadRequest(response);
 
         }
+
+        [HttpPost("JogadorMesa")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult InsetJogadorNaMesa([FromBody] JogadorNaMesaRequest request)
+        {
+            var response = _mesaService.createJogadorNaMesa(request);
+
+            if (response.ErrorCode == 201) return Ok(response);
+
+            return BadRequest(response);
+
+        }
+        [HttpDelete("JogadorMesa")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult RemoveJogadorNaMesa([FromBody] JogadorNaMesaRequest request)
+        {
+            var response = _mesaService.RemoveJogadorDaMesa(request);
+
+            if (response.ErrorCode == 201) return Ok(response);
+
+            return BadRequest(response);
+
+        }
+
+        [HttpPut("UpdateMesa")]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult UpdateMesa([FromBody] UpdateMesa request)
+        {
+            var response = _mesaService.updateMesa(request);
+
+            if (response.ErrorCode == 201) return Ok(response);
+
+            return BadRequest(response);
+
+        }
+
     }
 }

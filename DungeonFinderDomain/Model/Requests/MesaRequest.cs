@@ -5,5 +5,6 @@
         public string Sistema { get; set; }
         public string Nome { get; set; }
         public int IdMesa { get; set; }
+        public int isAtivo { get; set; }
     }
 }
