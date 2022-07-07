@@ -17,7 +17,7 @@ namespace DungeonFinderAPI.Controller
             _mesaService = mesaService;
         }
         [HttpGet("GetMesa/{idMesa}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MesaResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<MesaResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type=  typeof(BaseResponse))]
         public IActionResult GetMesaDetails(int idMesa)
         {

@@ -30,7 +30,7 @@ namespace DungeonFinderAPI.Controller
         }
 
         [HttpGet("GetSistema/{idSistema}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Sistema))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<Sistema>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetSistema(int idSistema)
         {
