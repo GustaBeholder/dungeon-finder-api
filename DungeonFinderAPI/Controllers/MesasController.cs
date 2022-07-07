@@ -8,11 +8,11 @@ namespace DungeonFinderAPI.Controller
 {
     [ApiController]
     [Route("api/Mesas")]
-    public class MesaController : ControllerBase
+    public class MesasController : ControllerBase
     {
         private readonly IMesaService _mesaService;
 
-        public MesaController(IMesaService mesaService)
+        public MesasController(IMesaService mesaService)
         {
             _mesaService = mesaService;
         }
@@ -70,7 +70,7 @@ namespace DungeonFinderAPI.Controller
         [HttpPost("JogadorMesa")]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
-        public IActionResult InsetJogadorNaMesa([FromBody] JogadorNaMesaRequest request)
+        public IActionResult InsertJogadorNaMesa([FromBody] JogadorNaMesaRequest request)
         {
             var response = _mesaService.createJogadorNaMesa(request);
 
