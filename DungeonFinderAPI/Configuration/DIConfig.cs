@@ -14,10 +14,12 @@ namespace DungeonFinderAPI.Configuration
             //Services
             service.AddScoped<IMesaService, MesaService>();
             service.AddScoped<ISistemaService, SistemaService>();
+            service.AddScoped<IJogadorService, JogadorService>();
 
             //Repositories
             service.AddScoped<IMesaRepository, MesaRepository>();
             service.AddScoped<ISistemaRepository, SistemaRepository>();
+            service.AddScoped<IJogadorRepository, JogadorRepository>();
 
             return service;
 

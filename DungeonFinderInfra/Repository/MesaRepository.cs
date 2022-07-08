@@ -1,9 +1,7 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using DungeonFinderDomain.Interface.Repository;
 using DungeonFinderDomain.Model.Response;
 using DungeonFinderDomain.Model.Requests;
-using Microsoft.Extensions.Configuration;
 using DungeonFinderInfra.DbConnect;
 
 namespace DungeonFinderInfra.Repository
@@ -111,8 +109,9 @@ namespace DungeonFinderInfra.Repository
         {
             ListResponse<JogadorNaMesaResponse> response = new ListResponse<JogadorNaMesaResponse>();
 
-            string query = @"Select j.idJogador, j.Nome, j.email from Jogador j
+            string query = @"Select j.idJogador, j.Nome, u.email, j.idUsuario from Jogador j
                                 INNER JOIN jogadorNaMesa jm on (jm.IdJogador = j.IdJogador)
+                                INNER JOIN Usuario u on (u.idUsuario = j.idUsuario)
                                 where jm.idMesa = @idMesa";
 
             try

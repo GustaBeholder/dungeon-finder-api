@@ -1,10 +1,9 @@
-﻿namespace DungeonFinderDomain.Model.Response
+﻿namespace DungeonFinderDomain.Model.Entities
 {
-    public class JogadorNaMesaResponse
+    public class Jogador
     {
         public int idJogador { get; set; }
         public int idUsuario { get; set; }
         public string Nome { get; set; }
-        public string Email { get; set; }
     }
 }
