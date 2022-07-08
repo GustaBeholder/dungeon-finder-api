@@ -15,7 +15,7 @@ namespace DungeonFinderAPI.Controllers
             _jogadorService = jogadorService;   
         }
 
-        [HttpGet("GetJogador")]
+        [HttpGet("GetJogadores")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Jogador))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
         public IActionResult GetListJogador()
