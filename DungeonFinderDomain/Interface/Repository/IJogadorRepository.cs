@@ -9,6 +9,7 @@ namespace DungeonFinderDomain.Interface.Repository
         GenericResponse<Jogador> getJogador(int idUsuario);
         GenericResponse<Jogador> getJogadorById(int idJogador);
         ListResponse<Jogador> getJogadorList();
+        BaseResponse createJogador(Jogador request);
 
     }
 }

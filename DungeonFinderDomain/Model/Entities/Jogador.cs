@@ -2,8 +2,8 @@
 {
     public class Jogador
     {
-        public int idJogador { get; set; }
-        public int idUsuario { get; set; }
+        public int IdJogador { get; set; }
+        public int IdUsuario { get; set; }
         public string Nome { get; set; }
     }
 }

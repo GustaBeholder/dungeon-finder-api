@@ -132,5 +132,49 @@ namespace DungeonFinderInfra.Repository
             }
             return response;
         }
+
+        public BaseResponse createJogador(Jogador request)
+        {
+            BaseResponse response = new BaseResponse();
+
+            string query = @"INSERT INTO Jogador (Nome, idUsuario) 
+                           VALUES (@Nome, @idUsuario)";
+
+            try
+            {
+                if (_session.OpenConnection())
+                {
+                    int rows = _session._connection.Execute(query, param: new
+                    {
+                        request.Nome,
+                        request.IdUsuario
+
+                    }, commandTimeout: 20);
+
+                    if (rows > 0)
+                    {
+                        response.ErrorCode = 0;
+                        response.Message = "Jogador criado!";
+
+                    }
+                    else
+                    {
+                        response.ErrorCode = 400;
+                        response.Message = "Erro ao criar Jogador";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ErrorCode = 500;
+                response.Message = "Erro ao conectar ao banco de dados";
+            }
+            finally
+            {
+                _session.CloseConnection();
+            }
+            return response;
+        }
+
     }
 }
