@@ -25,5 +25,17 @@ namespace DungeonFinderAPI.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpPost("GetUsuario")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GenericResponse<Usuario>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BaseResponse))]
+        public IActionResult GetUsuario([FromBody] Usuario request)
+        {
+            var response = _usuarioService.getusuario(request);
+
+            if (response.BaseResponse.ErrorCode == 0) return Ok(response);
+
+            return BadRequest(response.BaseResponse);
+        }
     }
 }

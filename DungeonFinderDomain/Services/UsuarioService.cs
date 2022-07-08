@@ -57,5 +57,10 @@ namespace DungeonFinderDomain.Services
             return response;
 
         }
+
+        public GenericResponse<Usuario> getusuario(Usuario request)
+        {
+            return _usuairoRepository.getusuario(request);  
+        }
     }
 }

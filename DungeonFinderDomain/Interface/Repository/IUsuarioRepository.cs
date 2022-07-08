@@ -7,5 +7,6 @@ namespace DungeonFinderDomain.Interface.Repository
     {
         BaseResponse createUsuario(Usuario request);
         int getIdUsuarioEmail(string email);
+        GenericResponse<Usuario> getusuario(Usuario request);
     }
 }

@@ -1,3 +1,4 @@
+using DungeonFinderWebApp.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(x=>x.LoginPath="/Usuario/login");
+//DIConfig
+builder.Services.DependencyInjection();
 
 var app = builder.Build();
 

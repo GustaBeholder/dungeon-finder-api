@@ -8,6 +8,6 @@ namespace DungeonFinderDomain.Interface.Service
     public interface IUsuarioService
     {
         BaseResponse createUsuario(Usuario request);
-
+        GenericResponse<Usuario> getusuario(Usuario request);
     }
 }

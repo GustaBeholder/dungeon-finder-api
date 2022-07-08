@@ -92,6 +92,52 @@ namespace DungeonFinderInfra.Repository
             }
             return idUsuario;
         }
+
+        public GenericResponse<Usuario> getusuario(Usuario request)
+        {
+            GenericResponse<Usuario> response = new GenericResponse<Usuario>();
+
+            string query = @"SELECT u.IdUsuario, u.Email, u.Password, j.Nome FROM Usuario u
+                            INNER JOIN Jogador j on (j.idUsuario = u.idUsuario)
+                            where u.email = @email 
+                            and u.password = @password";
+
+            try
+            {
+                if (_session.OpenConnection())
+                {
+                    Usuario user = _session._connection.QueryFirstOrDefault<Usuario>(query, param: new
+                    {
+                        request.Email,
+                        Password = Criptografia.GetHash(request.Password)
+
+                    }, commandTimeout: 20);
+
+                    if (user != null)
+                    {
+                        response.Response = user;
+                        response.BaseResponse.ErrorCode = 0;
+                        response.BaseResponse.Message = "Usuario encontrado!";
+
+                    }
+                    else
+                    {
+                        response.BaseResponse.ErrorCode = 400;
+                        response.BaseResponse.Message = "Nenhum usuario encontrado";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response.BaseResponse.ErrorCode = 500;
+                response.BaseResponse.Message = "Erro ao conectar ao banco de dados";
+            }
+            finally
+            {
+                _session.CloseConnection();
+            }
+            return response;
+        }
     }
    
 }
