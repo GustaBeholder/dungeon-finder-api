@@ -21,6 +21,11 @@ namespace DungeonFinderWebApp.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
@@ -33,6 +38,26 @@ namespace DungeonFinderWebApp.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Message = response.BaseResponse.Message;
+            return View(request);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterRequest request)
+        {
+            if (!ModelState.IsValid) return View(request);
+            var response = await _loginService.Register(request);
+
+            if(response.ErrorCode == 0)
+            {
+                LoginRequest loginRequest = new LoginRequest()
+                {
+                    Email = request.Email,
+                    Password = request.Password
+                };
+                var login = await _loginService.Login(loginRequest);
+                await RealizarLogin(login.Response) ;
+                return RedirectToAction("Index", "Home");
+            }
+            ViewBag.Message = response.Message;
             return View(request);
         }
 

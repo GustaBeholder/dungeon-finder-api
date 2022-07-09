@@ -11,6 +11,6 @@ namespace DungeonFinderWebApp.Domain.Interface.Services
     public interface ILoginService
     {
         Task<GenericResponse<LoginResponse>>Login(LoginRequest request);
-        Task<string> Register(RegisterRequest request);
+        Task<BaseResponse> Register(RegisterRequest request);
     }
 }

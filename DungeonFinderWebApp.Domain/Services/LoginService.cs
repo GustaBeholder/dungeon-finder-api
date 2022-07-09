@@ -28,15 +28,21 @@ namespace DungeonFinderWebApp.Domain.Services
             return JsonSerializer.Deserialize<GenericResponse<LoginResponse>>(await response.Content.ReadAsStringAsync(), options);
         }
 
-        public async Task<string> Register(RegisterRequest request)
+        public async Task<BaseResponse> Register(RegisterRequest request)
         {
             var registroContent = new StringContent(
                 JsonSerializer.Serialize(request),
                 Encoding.UTF8,
                 "application/json");
             var response = await _httpClient.PostAsync("https://localhost:44351/api/Usuarios/CreateUsuario", registroContent);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<BaseResponse>(await response.Content.ReadAsStringAsync(), options);
         }
+
+
     }
 }
