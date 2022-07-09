@@ -77,6 +77,9 @@ namespace DungeonFinderWebApp.Controllers
                     new Claim(ClaimTypes.NameIdentifier, Convert.ToString(response.IdUsuario)),
                         new Claim(ClaimTypes.Name, response.Nome),
                         new Claim(ClaimTypes.Email, response.Email),
+                        new Claim("Email", response.Email),
+                        new Claim("Nome", response.Nome),
+                        new Claim("UserId", Convert.ToString(response.IdUsuario))
                 };
             //Initialize a new instance of the ClaimsIdentity with the claims and authentication scheme    
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

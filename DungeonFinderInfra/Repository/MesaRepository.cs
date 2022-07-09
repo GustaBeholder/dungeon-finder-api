@@ -24,6 +24,7 @@ namespace DungeonFinderInfra.Repository
                             INNER JOIN Jogador j on(j.idJogador = m.idMestre)
                             where (@IdMesa = 0 or m.IdMesa = @IdMesa )
                             AND (@isAtivo < 0 or m.isAtivo = @isAtivo)
+                            AND (@Sistema = 0 or m.idSistema = @Sistema)
                             group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, m.IdMestre ,j.Nome, m.isAtivo";
 
             try
@@ -33,7 +34,8 @@ namespace DungeonFinderInfra.Repository
                     List<MesaResponse> itens = _session._connection.Query<MesaResponse>(query,
                         param: new {
                             request.IdMesa,
-                            request.isAtivo
+                            request.isAtivo,
+                            request.Sistema
 
                         }, commandTimeout: 20).ToList();
 

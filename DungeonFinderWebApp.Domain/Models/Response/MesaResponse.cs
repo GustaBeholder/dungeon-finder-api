@@ -1,6 +1,7 @@
-﻿namespace DungeonFinderDomain.Model.Response
+﻿
+namespace DungeonFinderWebApp.Domain.Models.Response
 {
-    public class MesaResponse 
+    public class MesaResponse
     {
         public int IdMesa { get; set; }
         public string Nome { get; set; }

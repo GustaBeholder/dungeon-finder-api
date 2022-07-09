@@ -10,11 +10,10 @@ namespace DungeonFinderWebApp.Domain.Models.Request
         [DataType(DataType.EmailAddress)]   
         public string Email { get; set; }
         [Required]
-        [StringLength(20)]
         public string Nome { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(50)]
+        [StringLength(50,MinimumLength = 8, ErrorMessage = "Sua Senha deve conter ao menos 8 caracteres")]
         public string Password { get; set; }
         [Required]
         [Display(Name ="Confirmar Senha")]

@@ -1,12 +1,13 @@
-﻿using DungeonFinderWebApp.Domain.Interface.Services;
+﻿using DungeonFinderWebApp.Domain.Extensions;
+using DungeonFinderWebApp.Domain.Interface.Services;
 using DungeonFinderWebApp.Domain.Models.Request;
 using DungeonFinderWebApp.Domain.Models.Response;
-using System.Text;
-using System.Text.Json;
+using DungeonFinderWebApp.Domain.Utils;
+
 
 namespace DungeonFinderWebApp.Domain.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService : ServicesBase, ILoginService
     {
         private readonly HttpClient _httpClient;
 
@@ -16,31 +17,20 @@ namespace DungeonFinderWebApp.Domain.Services
         }
         public async Task<GenericResponse<LoginResponse>> Login(LoginRequest request)
         {
-            var loginContent = new StringContent(
-                JsonSerializer.Serialize(request),
-                Encoding.UTF8,
-                "application/json");
-            var response = await _httpClient.PostAsync("https://localhost:44351/api/Usuarios/GetUsuario", loginContent);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
-            return JsonSerializer.Deserialize<GenericResponse<LoginResponse>>(await response.Content.ReadAsStringAsync(), options);
+            var loginContent = JsonUtils.ObterStringContent(request);
+
+            var response = await _httpClient.PostAsync($"{ApiUrl}Usuarios/GetUsuario", loginContent);
+
+            return await JsonUtils.Deserializar<GenericResponse<LoginResponse>>(response);
         }
 
         public async Task<BaseResponse> Register(RegisterRequest request)
         {
-            var registroContent = new StringContent(
-                JsonSerializer.Serialize(request),
-                Encoding.UTF8,
-                "application/json");
-            var response = await _httpClient.PostAsync("https://localhost:44351/api/Usuarios/CreateUsuario", registroContent);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
+            var registroContent = JsonUtils.ObterStringContent(request);
 
-            return JsonSerializer.Deserialize<BaseResponse>(await response.Content.ReadAsStringAsync(), options);
+            var response = await _httpClient.PostAsync($"{ApiUrl}Usuarios/CreateUsuario", registroContent);
+
+            return await JsonUtils.Deserializar<BaseResponse>(response);
         }
 
 

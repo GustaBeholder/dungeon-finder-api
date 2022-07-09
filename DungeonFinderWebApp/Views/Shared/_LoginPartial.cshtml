@@ -1,0 +1,20 @@
+﻿<ul class="navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" title="Manage">Olá, @User.FindFirst("Nome").Value</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Usuario" asp-action="LogOut">Sair</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="btn btn-success" asp-controller="Usuario" asp-action="Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-controller="Usuario" asp-action="Register">Criar Conta</a>
+        </li>
+    }
+</ul>
