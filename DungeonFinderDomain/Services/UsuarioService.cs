@@ -1,6 +1,7 @@
 ﻿using DungeonFinderDomain.Interface.Repository;
 using DungeonFinderDomain.Interface.Service;
 using DungeonFinderDomain.Model.Entities;
+using DungeonFinderDomain.Model.Requests;
 using DungeonFinderDomain.Model.Response;
 
 namespace DungeonFinderDomain.Services
@@ -8,26 +9,26 @@ namespace DungeonFinderDomain.Services
     public class UsuarioService : IUsuarioService
     {
         private readonly IJogadorRepository _jogadorRepository;
-        private readonly IUsuarioRepository _usuairoRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         public UsuarioService(IJogadorRepository jogadorRepository, IUsuarioRepository usuairoRepository)
         {
             _jogadorRepository = jogadorRepository;
-            _usuairoRepository = usuairoRepository; 
+            _usuarioRepository = usuairoRepository; 
         }
 
-        public BaseResponse createUsuario(Usuario request)
+        public BaseResponse createUsuario(CreateUserRequest request)
         {
             BaseResponse response = VerificaUser(request.Email);
 
             if (response.ErrorCode != 0) return response;
             
-            response =_usuairoRepository.createUsuario(request);
+            response = _usuarioRepository.createUsuario(request);
 
-            int idUsuario = _usuairoRepository.getIdUsuarioEmail(request.Email);
+            int idUsuario = _usuarioRepository.getIdUsuarioEmail(request.Email);
 
             Jogador jogador = new Jogador
             {
-                IdUsuario = request.IdUsuario,
+                IdUsuario = idUsuario,
                 Nome = request.Nome,
                 IdJogador = 0
 
@@ -36,9 +37,15 @@ namespace DungeonFinderDomain.Services
             return response;
         }
 
+        public GenericResponse<Usuario> getUsuario(UserLoginRequest request)
+        {
+            return _usuarioRepository.getUsuario(request);  
+        }
+
+
         private bool VerificaUsuarioExiste(string email)
         {
-            int idUsuario = _usuairoRepository.getIdUsuarioEmail(email);
+            int idUsuario = _usuarioRepository.getIdUsuarioEmail(email);
 
             return idUsuario > 0;
         }
@@ -57,5 +64,7 @@ namespace DungeonFinderDomain.Services
             return response;
 
         }
+
+        
     }
 }

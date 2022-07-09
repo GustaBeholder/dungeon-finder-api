@@ -1,10 +1,7 @@
 ﻿
-
-using System.Text.Json.Serialization;
-
-namespace DungeonFinderDomain.Model.Entities
+namespace DungeonFinderWebApp.Domain.Models.Response
 {
-    public class Usuario
+    public class LoginResponse
     {
         public int IdUsuario { get; set; }
         public string Nome { get; set; }
