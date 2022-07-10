@@ -12,8 +12,7 @@ namespace DungeonFinderWebApp.Configuration
 
             //Services
             service.AddHttpClient<ILoginService, LoginService>();
-
-
+            service.AddHttpClient<IMesaService, MesaService>();
 
             return service;
 

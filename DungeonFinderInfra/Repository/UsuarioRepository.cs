@@ -98,7 +98,7 @@ namespace DungeonFinderInfra.Repository
         {
             GenericResponse<Usuario> response = new GenericResponse<Usuario>();
 
-            string query = @"SELECT u.idUsuario, j.Nome, u.Email, u.Password FROM Usuario u
+            string query = @"SELECT u.idUsuario, j.idJogador j.Nome, u.Email, u.Password FROM Usuario u
                             INNER JOIN Jogador j on (j.idUsuario = u.idUsuario)
                             WHERE u.Email = @Email
                             AND u.Password = @Password";

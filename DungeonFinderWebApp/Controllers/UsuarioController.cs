@@ -35,7 +35,7 @@ namespace DungeonFinderWebApp.Controllers
             if (response.BaseResponse.ErrorCode == 0)
             {
                 await RealizarLogin(response.Response);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Mesa");
             }
             ViewBag.Message = response.BaseResponse.Message;
             return View(request);
@@ -55,7 +55,7 @@ namespace DungeonFinderWebApp.Controllers
                 };
                 var login = await _loginService.Login(loginRequest);
                 await RealizarLogin(login.Response) ;
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Mesa");
             }
             ViewBag.Message = response.Message;
             return View(request);
@@ -72,11 +72,11 @@ namespace DungeonFinderWebApp.Controllers
 
         private async Task RealizarLogin(LoginResponse response)
         {
-            
+
             var claims = new List<Claim>() {
                     new Claim(ClaimTypes.NameIdentifier, Convert.ToString(response.IdUsuario)),
                         new Claim(ClaimTypes.Name, response.Nome),
-                        new Claim(ClaimTypes.Email, response.Email),
+                        new Claim("JogadorId", Convert.ToString(response.IdJogador)),
                         new Claim("Email", response.Email),
                         new Claim("Nome", response.Nome),
                         new Claim("UserId", Convert.ToString(response.IdUsuario))

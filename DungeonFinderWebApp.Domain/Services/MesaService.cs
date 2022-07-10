@@ -1,5 +1,6 @@
 ﻿
 
+using DungeonFinderWebApp.Domain.Extensions;
 using DungeonFinderWebApp.Domain.Interface.Services;
 using DungeonFinderWebApp.Domain.Models.Request;
 using DungeonFinderWebApp.Domain.Models.Response;
@@ -7,7 +8,7 @@ using DungeonFinderWebApp.Domain.Utils;
 
 namespace DungeonFinderWebApp.Domain.Services
 {
-    public class MesaService : IMesaService
+    public class MesaService : ServicesBase, IMesaService
     {
         private readonly HttpClient _httpClient;
 
@@ -16,16 +17,13 @@ namespace DungeonFinderWebApp.Domain.Services
             _httpClient = httpClient;
         }
 
-        public Task<ListResponse<MesaResponse>> getMesas(MesaRequest request)
+        public async Task<IEnumerable<MesaResponse>> getMesas(MesaRequest request)
         {
-            throw new NotImplementedException();
+            var mesaContent = JsonUtils.ObterStringContent(request);
+
+            var response = await _httpClient.PostAsync($"{ApiUrl}Mesas/GetMesa", mesaContent);
+
+            return await JsonUtils.Deserializar<IEnumerable<MesaResponse>>(response);
         }
-
-        //public async Task<ListResponse<MesaResponse>> getMesas(MesaRequest request)
-        //{
-        //    var mesaContent = JsonUtils.ObterStringContent(request);
-
-        //    var response = await _httpClient.PostAsync("", mesaContent);
-        //}
     }
 }
