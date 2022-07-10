@@ -25,5 +25,12 @@ namespace DungeonFinderWebApp.Domain.Services
 
             return await JsonUtils.Deserializar<IEnumerable<MesaResponse>>(response);
         }
+
+        public async Task<GenericResponse<MesaResponse>> getMesaDetail(int idMesa)
+        {
+            var response = await _httpClient.GetAsync($"{ApiUrl}Mesas/GetMesa/{idMesa}");
+
+            return await JsonUtils.Deserializar<GenericResponse<MesaResponse>>(response);
+        }
     }
 }

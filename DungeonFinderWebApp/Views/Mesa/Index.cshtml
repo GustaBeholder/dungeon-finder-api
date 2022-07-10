@@ -5,7 +5,7 @@
 <h2>Mesas</h2>
     <div class="cards" style="margin : 5%">
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        @foreach(DungeonFinderWebApp.Domain.Models.Response.MesaResponse mesa in Model)
+        @foreach(var mesa in Model)
         {
             <div class="col">
                 <div class="card">
@@ -16,7 +16,7 @@
                     <p class="card-text text-muted">@mesa.Sistema</p>
                     <p class="card-text"><i class="fa fa-users"></i> @mesa.QtdMaxJogadores</p>
                     <div class="d-grid gap-2 d-md-block">
-                      <button class="btn btn-primary" type="button">Ver mais</button>
+                      <a href="@Url.Action("MesaDetails","Mesa", new{idMesa = mesa.IdMesa})" class="btn btn-primary">Ver mais</a>
                     </div>
                   </div>
                 </div>

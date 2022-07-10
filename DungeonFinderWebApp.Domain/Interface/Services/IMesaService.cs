@@ -6,5 +6,6 @@ namespace DungeonFinderWebApp.Domain.Interface.Services
     public interface IMesaService
     {
         Task <IEnumerable<MesaResponse>> getMesas(MesaRequest request);
+        Task <GenericResponse<MesaResponse>> getMesaDetail(int idMesa);
     }
 }
