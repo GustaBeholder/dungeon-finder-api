@@ -17,7 +17,7 @@ namespace DungeonFinderInfra.Repository
             ListResponse<MesaResponse> response = new ListResponse<MesaResponse>();
 
 
-            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
+            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, count(1) over() as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
                             m.isAtivo
                             FROM Mesa m
                             INNER JOIN Sistema s on(s.idSistema = m.idSistema)
