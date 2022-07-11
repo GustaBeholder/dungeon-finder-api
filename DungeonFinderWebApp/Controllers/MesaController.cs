@@ -14,6 +14,7 @@ namespace DungeonFinderWebApp.Controllers
         {
             _mesaService = mesaService;
         }
+
         public async Task<IActionResult> Index()
         {
             MesaRequest request = new MesaRequest() { Sistema = 0, isAtivo = -1, IdMesa = 0, Nome=""};

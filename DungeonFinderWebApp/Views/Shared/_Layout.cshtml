@@ -25,8 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mesa" asp-action="Index">Mesas</a>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mesas
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" asp-controller="Mesa" asp-action="Index">Lista de Mesas</a></li>
+                            <li><a class="dropdown-item" href="#">Criar Mesa</a></li>
+                          </ul>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +47,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - DungeonFinderWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Dungeon Finder 
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

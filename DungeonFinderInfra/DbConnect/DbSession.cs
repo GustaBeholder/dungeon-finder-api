@@ -11,9 +11,9 @@ namespace DungeonFinderInfra.DbConnect
         public DbSession()
         {
             //Conexão Trabalho
-            //_connection = new SqlConnection("Data Source=DESKTOP-FH8RBBG\\SQLEXPRESS;Initial Catalog=DungeonFinder;TrustServerCertificate=True;Integrated Security=True");
+            _connection = new SqlConnection("Data Source=DESKTOP-FH8RBBG\\SQLEXPRESS;Initial Catalog=DungeonFinder;TrustServerCertificate=True;Integrated Security=True");
             //Conexão Casa
-            _connection = new SqlConnection("Data Source=DESKTOP-RMHUVFI\\SQLEXPRESS;Initial Catalog=DungeonFinder;User ID=sa;Password=1234;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False");
+            //_connection = new SqlConnection("Data Source=DESKTOP-RMHUVFI\\SQLEXPRESS;Initial Catalog=DungeonFinder;User ID=sa;Password=1234;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False");
 
         }
         
