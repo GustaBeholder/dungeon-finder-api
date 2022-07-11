@@ -1,5 +1,6 @@
 ﻿
-using DungeonFinderWebApp.Domain.Interface.Service;
+
+using DungeonFinderWebApp.Domain.Interface.Services;
 using DungeonFinderWebApp.Domain.Services;
 
 namespace DungeonFinderWebApp.Configuration
@@ -11,8 +12,9 @@ namespace DungeonFinderWebApp.Configuration
         {
             //services
 
+            //Services
             service.AddHttpClient<ILoginService, LoginService>();
-
+            service.AddHttpClient<IMesaService, MesaService>();
 
             return service;
 

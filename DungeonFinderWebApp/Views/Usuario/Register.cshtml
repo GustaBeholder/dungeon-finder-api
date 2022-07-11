@@ -1,13 +1,12 @@
-﻿@model DungeonFinderWebApp.Domain.Models.Request.LoginRequest  
+﻿@model DungeonFinderWebApp.Domain.Models.Request.RegisterRequest  
 @{    
-    ViewData["Title"] = "Login";     
- 
+    ViewData["Title"] = "Criar Conta";     
 }    
-<h2>Login</h2>    
+<h2>Criar Nova Conta</h2>    
 <hr />    
 <div class="row">    
     <div class="col-md-4">    
-        <form asp-action="Login">    
+        <form asp-action="Register">    
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>    
             @if (!string.IsNullOrEmpty(ViewBag.Message))    
             {    
@@ -19,15 +18,25 @@
                 <label asp-for="Email" class="control-label"></label>    
                 <input asp-for="Email" class="form-control" />    
                 <span asp-validation-for="Email" class="text-danger"></span>    
-            </div>    
+            </div>   
+            <div class="form-group">    
+                <label asp-for="Nome" class="control-label"></label>    
+                <input asp-for="Nome" class="form-control" />    
+                <span asp-validation-for="Nome" class="text-danger"></span>    
+            </div>
             <div class="form-group">    
                 <label asp-for="Password" class="control-label"></label>    
                 <input asp-for="Password" class="form-control" />    
                 <span asp-validation-for="Password" class="text-danger"></span>    
-            </div>    
+            </div>  
+            <div class="form-group">    
+                <label asp-for="ConfirmPassword" class="control-label"></label>    
+                <input asp-for="ConfirmPassword" class="form-control" />    
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>    
+            </div> 
    
             <div class="form-group">    
-                <input type="submit" value="Login" class="btn btn-default" />    
+                <input type="submit" value="Criar Conta" class="btn btn-default" />    
             </div>    
         </form>    
     </div>    

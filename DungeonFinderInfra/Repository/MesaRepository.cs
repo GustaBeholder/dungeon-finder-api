@@ -17,13 +17,14 @@ namespace DungeonFinderInfra.Repository
             ListResponse<MesaResponse> response = new ListResponse<MesaResponse>();
 
 
-            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
+            string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, count(1) over() as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
                             m.isAtivo
                             FROM Mesa m
                             INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                             INNER JOIN Jogador j on(j.idJogador = m.idMestre)
                             where (@IdMesa = 0 or m.IdMesa = @IdMesa )
                             AND (@isAtivo < 0 or m.isAtivo = @isAtivo)
+                            AND (@Sistema = 0 or m.idSistema = @Sistema)
                             group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, m.IdMestre ,j.Nome, m.isAtivo";
 
             try
@@ -33,7 +34,8 @@ namespace DungeonFinderInfra.Repository
                     List<MesaResponse> itens = _session._connection.Query<MesaResponse>(query,
                         param: new {
                             request.IdMesa,
-                            request.isAtivo
+                            request.isAtivo,
+                            request.Sistema
 
                         }, commandTimeout: 20).ToList();
 

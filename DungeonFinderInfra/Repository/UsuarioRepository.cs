@@ -2,6 +2,7 @@
 using Dapper;
 using DungeonFinderDomain.Interface.Repository;
 using DungeonFinderDomain.Model.Entities;
+using DungeonFinderDomain.Model.Requests;
 using DungeonFinderDomain.Model.Response;
 using DungeonFinderDomain.Utils;
 using DungeonFinderInfra.DbConnect;
@@ -14,7 +15,7 @@ namespace DungeonFinderInfra.Repository
         {
         }
 
-        public BaseResponse createUsuario(Usuario request)
+        public BaseResponse createUsuario(CreateUserRequest request)
         {
             BaseResponse response = new BaseResponse();
 
@@ -62,7 +63,7 @@ namespace DungeonFinderInfra.Repository
             int idUsuario = 0;
 
             string query = @"SELECT idUsuario FROM Usuario
-                            WHERE email = @email";;
+                            WHERE email = @email";
 
             try
             {
@@ -93,14 +94,14 @@ namespace DungeonFinderInfra.Repository
             return idUsuario;
         }
 
-        public GenericResponse<Usuario> getusuario(Usuario request)
+        public GenericResponse<Usuario> getUsuario(UserLoginRequest request)
         {
             GenericResponse<Usuario> response = new GenericResponse<Usuario>();
 
-            string query = @"SELECT u.IdUsuario, u.Email, u.Password, j.Nome FROM Usuario u
+            string query = @"SELECT u.idUsuario, j.idJogador, j.Nome, u.Email, u.Password FROM Usuario u
                             INNER JOIN Jogador j on (j.idUsuario = u.idUsuario)
-                            where u.email = @email 
-                            and u.password = @password";
+                            WHERE u.Email = @Email
+                            AND u.Password = @Password";
 
             try
             {
@@ -117,26 +118,28 @@ namespace DungeonFinderInfra.Repository
                     {
                         response.Response = user;
                         response.BaseResponse.ErrorCode = 0;
-                        response.BaseResponse.Message = "Usuario encontrado!";
+                        response.BaseResponse.Message = "Sucesso";
+
 
                     }
                     else
                     {
                         response.BaseResponse.ErrorCode = 400;
-                        response.BaseResponse.Message = "Nenhum usuario encontrado";
+                        response.BaseResponse.Message = "Usuário e/ou senha inválidos";
                     }
                 }
             }
             catch (Exception ex)
             {
                 response.BaseResponse.ErrorCode = 500;
-                response.BaseResponse.Message = "Erro ao conectar ao banco de dados";
+                response.BaseResponse.Message = "Usuário e/ ou senha inválidos";
             }
             finally
             {
                 _session.CloseConnection();
             }
             return response;
+
         }
     }
    

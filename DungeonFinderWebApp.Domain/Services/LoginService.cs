@@ -1,11 +1,13 @@
-﻿using DungeonFinderWebApp.Domain.Interface.Service;
-using DungeonFinderWebApp.Domain.Models.Entities;
-using System.Text;
-using System.Text.Json;
+﻿using DungeonFinderWebApp.Domain.Extensions;
+using DungeonFinderWebApp.Domain.Interface.Services;
+using DungeonFinderWebApp.Domain.Models.Request;
+using DungeonFinderWebApp.Domain.Models.Response;
+using DungeonFinderWebApp.Domain.Utils;
+
 
 namespace DungeonFinderWebApp.Domain.Services
 {
-    public class LoginService : ILoginService
+    public class LoginService : ServicesBase, ILoginService
     {
         private readonly HttpClient _httpClient;
 
@@ -13,30 +15,24 @@ namespace DungeonFinderWebApp.Domain.Services
         {
             _httpClient = httpClient;
         }
-
-        public async Task<string> Login(LoginModel loginModel)
+        public async Task<GenericResponse<LoginResponse>> Login(LoginRequest request)
         {
-            var loginContent = new StringContent(
-                JsonSerializer.Serialize(loginModel),
-                Encoding.UTF8,
-                "application/json");
+            var loginContent = JsonUtils.ObterStringContent(request);
 
+            var response = await _httpClient.PostAsync($"{ApiUrl}Usuarios/GetUsuario", loginContent);
 
-            var response = await _httpClient.PostAsync("https://localhost:44351/api/Usuarios/GetUsuario", loginContent);
-
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return await JsonUtils.Deserializar<GenericResponse<LoginResponse>>(response);
         }
 
-        public async Task<string> Register(UsuarioRegistro usuarioRegistro)
+        public async Task<BaseResponse> Register(RegisterRequest request)
         {
-            var registerContent = new StringContent(    
-                JsonSerializer.Serialize(usuarioRegistro),
-                Encoding.UTF8,
-                "applicaton/json");
+            var registroContent = JsonUtils.ObterStringContent(request);
 
-            var response = await _httpClient.PostAsync("https://localhost:44351/api/Usuarios/CreateUsuario", registerContent);
+            var response = await _httpClient.PostAsync($"{ApiUrl}Usuarios/CreateUsuario", registroContent);
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return await JsonUtils.Deserializar<BaseResponse>(response);
         }
+
+
     }
 }

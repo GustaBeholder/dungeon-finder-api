@@ -138,7 +138,7 @@ namespace DungeonFinderInfra.Repository
             BaseResponse response = new BaseResponse();
 
             string query = @"INSERT INTO Jogador (Nome, idUsuario) 
-                           VALUES (@Nome, @idUsuario)";
+                           VALUES (@Nome, @IdUsuario)";
 
             try
             {

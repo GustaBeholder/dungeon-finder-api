@@ -1,14 +1,19 @@
 using DungeonFinderWebApp.Configuration;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json");
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(x=>x.LoginPath="/Usuario/login");
-//DIConfig
+builder.Services.AddMvcConfiguration();
+//DI
 builder.Services.DependencyInjection();
+//Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .AddCookie(x => x.LoginPath = "/Usuario/Login");
+
+
 
 var app = builder.Build();
 
