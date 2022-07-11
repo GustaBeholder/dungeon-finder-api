@@ -32,5 +32,15 @@ namespace DungeonFinderWebApp.Domain.Services
 
             return await JsonUtils.Deserializar<GenericResponse<MesaResponse>>(response);
         }
+
+        public async Task<BaseResponse> createMesa(CreateMesaRequest request)
+        {
+            var createRequest = JsonUtils.ObterStringContent(request);
+
+            var response = await _httpClient.PostAsync($"{ApiUrl}Mesas/CreateMesa", createRequest);
+
+            return await JsonUtils.Deserializar<BaseResponse>(response);
+
+        }
     }
 }

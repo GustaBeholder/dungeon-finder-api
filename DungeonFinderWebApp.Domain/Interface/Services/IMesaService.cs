@@ -7,5 +7,6 @@ namespace DungeonFinderWebApp.Domain.Interface.Services
     {
         Task <IEnumerable<MesaResponse>> getMesas(MesaRequest request);
         Task <GenericResponse<MesaResponse>> getMesaDetail(int idMesa);
+        Task<BaseResponse> createMesa(CreateMesaRequest request);
     }
 }

@@ -27,5 +27,22 @@ namespace DungeonFinderWebApp.Controllers
             var response = await _mesaService.getMesaDetail(idMesa);
             return View(response.Response);
         }
+
+
+        public IActionResult CreateMesa()
+        {
+            return View();
+        }
+
+
+        public async Task<JsonResult> CreateMesaFunc(CreateMesaRequest request)
+        {
+
+            var response = await _mesaService.createMesa(request);
+            ViewBag.Message = response.Message;
+
+            return Json(response);
+
+        }
     }
 }

@@ -3,6 +3,25 @@
     ViewData["Title"] = "Mesas";     
 } 
 <h2>Mesas</h2>
+<div class="filtros">
+
+        <div class="row g-3">       
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+                  <option selected>Todos</option>
+                  <option value="1">Dungeons and Dragons</option>
+                  <option value="2">Vampiro a máscara</option>
+                  <option value="3">Call of Cthulhu</option>
+                  <option value="4">Tormenta RPG</option>
+                </select>
+                <label for="floatingSelectGrid">Filtre por Sistema</label>
+              </div>
+            </div>
+            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
+        </div>
+ </div>
+
     <div class="cards" style="margin : 5%">
     <div class="row row-cols-1 row-cols-md-2 g-4">
         @foreach(var mesa in Model)

@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Criar Mesa";
+}
+
+<h2>Criar Nova Mesa</h2>
+<hr />
+
+<div class="mb-3">
+    <label class="form-label">Nome Mesa</label>
+    <input type="text" class="form-control" id="nomeMesa" placeholder="Aventura Louca">
+</div>
+<div class="mb-3">
+    <label class="form-label">Descrição</label>
+    <textarea class="form-control" id="descricao" rows="3"></textarea>
+</div>
+<div class="mb-3">
+    <label class="form-label">Quantidade Máxima de Jogadores</label>
+    <input type="number" class="form-control" id="qtdMaxJogadores">
+</div>
+
+<select id="sistema" class="form-select">
+    <option selected>Escolha um sistema</option>
+    <option value="1">Dungeons and Dragons 5e</option>
+    <option value="2">Dungeons and Dragons 3.5e</option>
+    <option value="3">Call of Cthulhu</option>
+    <option value="4">PathFinder</option>
+    <option value="5">Tormenta</option>
+</select>
+<span id="msg" class="text-success"></span>
+
+<div class="row">
+    <div class="col-lg-12" style="margin-bottom: 20px; margin-top: 20px">
+        <div class="text-center">
+            <button id="criarMesa" type="submit" class="btn btn-primary">Criar Mesa</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    function createMesa() {
+        $.ajax({
+            url: '@Url.Action("CreateMesaFunc", "Mesa")',
+            type: "POST",
+            async: true,
+            data: {
+                request:
+                {
+                    nome: $("#nomeMesa").val(),
+                    descricao: $("#descricao").val(),
+                    qtdMaxJogadores: $("#qtdMaxJogadores").val(),
+                    idMestre: @Convert.ToInt32(User.FindFirst("JogadorId").Value),
+                    idSistema: $("#sistema").val()
+                },
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $("#criarMesa").text("Aguarde...");
+                $('#criarMesa').attr('disabled', 'disabled');
+            },
+            success: function(data) {
+                console.log(data)
+                $("#criarMesa").text("Mesa Criada");
+                $('#criarMesa').attr('disabled', 'disabled');
+                $('#msg').html(data.message);
+            }
+        });
+    }
+    $("#criarMesa").click(function() {
+        createMesa();
+    });
+
+</script>
