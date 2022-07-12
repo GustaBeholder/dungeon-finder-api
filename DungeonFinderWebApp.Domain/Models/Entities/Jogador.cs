@@ -7,7 +7,8 @@ namespace DungeonFinderWebApp.Domain.Models.Entities
         public int idMesa { get; set; }
         public int IdUsuario { get; set; }  
         public string Nome { get; set; }  
-        public string Email { get; set; }  
+        public string Email { get; set; }
+        public DateTime AdcionadoEm { get; set; }
 
     }
 }

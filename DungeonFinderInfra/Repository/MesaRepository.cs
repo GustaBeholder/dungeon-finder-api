@@ -111,7 +111,7 @@ namespace DungeonFinderInfra.Repository
         {
             ListResponse<JogadorNaMesaResponse> response = new ListResponse<JogadorNaMesaResponse>();
 
-            string query = @"Select j.idJogador, j.Nome, u.email, j.idUsuario, jm.idMesa from Jogador j
+            string query = @"Select j.idJogador, j.Nome, u.email, j.idUsuario, jm.idMesa, jm.AdcionadoEm from Jogador j
                                 INNER JOIN jogadorNaMesa jm on (jm.IdJogador = j.IdJogador)
                                 INNER JOIN Usuario u on (u.idUsuario = j.idUsuario)
                                 where jm.idMesa = @idMesa";
