@@ -3,7 +3,7 @@
     ViewData["Title"] = $"{Model.Nome} Detalhes";     
 }
 
-            <div class="conteudo" style="margin-top: 20px">
+            <div class="conteudo" style="margin: 0 auto; width: 720px; height: 500px;">
                 <div class="card mb-3">
                     <img src="https://tm.ibxk.com.br/2022/04/14/14125007305279.jpg?ims=1200x675" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -21,17 +21,85 @@
                           }
                             else
                             {
-                                if(Model.QtdJogadores == Model.QtdMaxJogadores)
+                                if(Model.QtdJogadores  == Model.QtdMaxJogadores)
                                 {
-                                    <button class="btn btn-primary" type="button">Mesa Lotada</button>
+                                    <button class="btn btn-primary" disabled type="button">Mesa Lotada</button>
                                 }
                                 else
                                 {
-                                    <button class="btn btn-primary" type="button">Participar</button>
+                                    
+                                    <button id="participar" class="btn btn-primary" type="button">Participar</button>
                                 }
                             }
+                            <span id="msg" class="text-success"></span>
                         
                       </div>
                     </div>
                   </div>
             </div>
+            
+            <div class="_ListJogadoresMesa" style="position: absolute; top: 80px; left:30px; text-align:center; height: 600px; overflow-y: auto;">
+                
+            </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+    function loadJogadoresMesa() {
+        $.ajax({
+            url: '@Url.Action("_ListJogadoresMesa", "Mesa")',
+            type: "POST",
+            async: true,
+            data: {
+                request:
+                    {
+                        idMesa: @Model.IdMesa
+                    }
+            },
+            dataType: 'text',
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                $('._ListJogadoresMesa').html(data);
+
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function addJogadorMesa() {
+        $.ajax({
+            url: '@Url.Action("AddJogadorNaMesa", "Mesa")',
+            type: "POST",
+            async: true,
+            data: {
+                request:
+                {
+                    idJogador: @Convert.ToInt32(User.FindFirst("JogadorId").Value),
+                    idMesa: @Model.IdMesa
+                },
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $("#participar").text("Aguarde...");
+                $('#participar').attr('disabled', 'disabled');
+            },
+            success: function(data) {
+                $("#participar").text("Participar");
+                $('#participar').attr('disabled', 'disabled');
+                $('#msg').html(data.message);
+                loadJogadoresMesa();
+            },
+            error: function() {
+                $('#participar').attr('disabled', 'disabled');
+                $('#msg').html("Erro ao tentar entrar na mesa");
+            }
+        });
+    }
+    loadJogadoresMesa();
+    $("#participar").click(function() {
+        addJogadorMesa();
+    });
+</script>

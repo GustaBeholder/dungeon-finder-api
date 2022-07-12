@@ -20,11 +20,6 @@
 
 <select id="sistema" class="form-select">
     <option selected>Escolha um sistema</option>
-    <option value="1">Dungeons and Dragons 5e</option>
-    <option value="2">Dungeons and Dragons 3.5e</option>
-    <option value="3">Call of Cthulhu</option>
-    <option value="4">PathFinder</option>
-    <option value="5">Tormenta</option>
 </select>
 <span id="msg" class="text-success"></span>
 
@@ -59,15 +54,39 @@
                 $('#criarMesa').attr('disabled', 'disabled');
             },
             success: function(data) {
-                console.log(data)
                 $("#criarMesa").text("Mesa Criada");
                 $('#criarMesa').attr('disabled', 'disabled');
                 $('#msg').html(data.message);
+            },
+            error: function() {
+                $('#criarMesa').attr('disabled', 'disabled');
+                $('#msg').html("Erro ao criar mesa");
             }
         });
     }
     $("#criarMesa").click(function() {
         createMesa();
     });
+
+    function loadData() {
+        $.ajax({
+                url: '@Url.Action("GetSistemas", "Sistema")',
+                dataType: 'json',
+                success: function (data) {
+                    var sistema = $('#sistema');
+                    $.each(data, function () {
+                        sistema.append(
+                            $('<option>', {
+                                value: this.idSistema
+                            }).text(this.nome)
+                        );
+                    }); 
+                },
+                error: function () {
+
+                },
+        });
+    }
+    loadData();
 
 </script>

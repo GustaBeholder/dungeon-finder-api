@@ -1,48 +1,85 @@
-﻿@model List<DungeonFinderWebApp.Domain.Models.Response.MesaResponse>
-@{    
+﻿@{    
     ViewData["Title"] = "Mesas";     
 } 
 <h2>Mesas</h2>
 <div class="filtros">
-
         <div class="row g-3">       
             <div class="col-md">
               <div class="form-floating">
-                <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
-                  <option selected>Todos</option>
-                  <option value="1">Dungeons and Dragons</option>
-                  <option value="2">Vampiro a máscara</option>
-                  <option value="3">Call of Cthulhu</option>
-                  <option value="4">Tormenta RPG</option>
+                <select id="sistema" class="form-select"  aria-label="Floating label select example">
+                  <option value="0" selected>Todos</option>
                 </select>
                 <label for="floatingSelectGrid">Filtre por Sistema</label>
               </div>
             </div>
-            <button class="btn btn-outline-primary" type="submit">Filtrar</button>
+            <button id="filtrar" class="btn btn-outline-primary" type="submit">Filtrar</button>
         </div>
  </div>
 
-    <div class="cards" style="margin : 5%">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        @foreach(var mesa in Model)
-        {
-            <div class="col">
-                <div class="card">
-                  <img src="https://tm.ibxk.com.br/2022/04/14/14125007305279.jpg?ims=1200x675" class="card-img-top" alt="dnd">
-                  <div class="card-body">
-                    <h5 class="card-title">@mesa.Nome</h5>
-                    <p class="card-text "><em>@mesa.Descricao</em></p>
-                    <p class="card-text text-muted">@mesa.Sistema</p>
-                    <p class="card-text"><i class="fa fa-users"></i> @mesa.QtdMaxJogadores</p>
-                    <div class="d-grid gap-2 d-md-block">
-                      <a href="@Url.Action("MesaDetails","Mesa", new{idMesa = mesa.IdMesa})" class="btn btn-primary">Ver mais</a>
-                    </div>
-                  </div>
-                </div>
-           </div>
-        }
-    </div>
-    </div> 
+ <div class="_CardMesa">
+ </div>
+
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    function loadData() {
+        $.ajax({
+                url: '@Url.Action("GetSistemas", "Sistema")',
+                dataType: 'json',
+                success: function (data) {
+                    var sistema = $('#sistema');
+                    $.each(data, function () {
+                        sistema.append(
+                            $('<option>', {
+                                value: this.idSistema
+                            }).text(this.nome)
+                        );
+                    }); 
+                },
+                error: function () {
+
+                },
+        });
+    }
+    loadData();
+    $("#filtrar").click(function () {
+        loadCardsMesa();
+
+    });
+
+    function loadCardsMesa() {
+        $.ajax({
+            url: '@Url.Action("_CardsMesa", "Mesa")',
+            type: "POST",
+            async: true,
+            data: {
+                request:
+                    {
+                        Sistema: $("#sistema").val(),
+                        isAtivo: 1,
+                        IdMesa: 0,
+                        Nome: "",
+                    }
+            },
+            dataType: 'text',
+            beforeSend: function () {
+                $("#filtrar").text("Aguarde...");
+                $('#filtrar').attr('disabled', 'disabled');
+            },
+            success: function (data) {
+                $('._CardMesa').html(data);
+
+                $("#filtrar").text("Filtrar");
+                $('#filtrar').removeAttr('disabled');
+            },
+            error: function () {
+                $("#filtrar").text("Filtrar");
+                $('#filtrar').removeAttr('disabled');
+            }
+        });
+    }
+</script>
 
 
       

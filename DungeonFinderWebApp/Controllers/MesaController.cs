@@ -17,11 +17,16 @@ namespace DungeonFinderWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            MesaRequest request = new MesaRequest() { Sistema = 0, isAtivo = -1, IdMesa = 0, Nome=""};
-            var response = await _mesaService.getMesas(request);
-            return View(response);
+            return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> _CardsMesa(MesaRequest request)
+        {
+            request.Nome = "";
+            var response = await _mesaService.getMesas(request);
+            return PartialView(response);
+        }
         public async Task<IActionResult> MesaDetails(int idMesa)
         {
             var response = await _mesaService.getMesaDetail(idMesa);
@@ -39,6 +44,22 @@ namespace DungeonFinderWebApp.Controllers
         {
 
             var response = await _mesaService.createMesa(request);
+            ViewBag.Message = response.Message;
+
+            return Json(response);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> _ListJogadoresMesa(MesaRequest request)
+        {
+            var response = await _mesaService.getJogadoresNaMesa(request.IdMesa);
+
+            return PartialView(response);
+        }
+
+        public async Task<JsonResult> AddJogadorNaMesa(AddJogadorNaMesa request)
+        {
+            var response = await _mesaService.addJogadorNaMesa(request);
             ViewBag.Message = response.Message;
 
             return Json(response);

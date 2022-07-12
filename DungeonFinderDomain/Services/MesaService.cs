@@ -1,7 +1,6 @@
 ﻿
 using DungeonFinderDomain.Interface.Repository;
 using DungeonFinderDomain.Interface.Service;
-using DungeonFinderDomain.Model.Entities;
 using DungeonFinderDomain.Model.Requests;
 using DungeonFinderDomain.Model.Response;
 
@@ -91,11 +90,14 @@ namespace DungeonFinderDomain.Services
         private bool JogadorPertenceMesa(JogadorNaMesaRequest request)
         {
             var Jogadores = _mesaRepository.getJogadoresNaMesa(request.idMesa);
-
-            foreach(var jogador in Jogadores.Items)
+            if(Jogadores.Items != null)
             {
-                if (jogador.idJogador == request.idJogador) return true;
+                foreach (var jogador in Jogadores.Items)
+                {
+                    if (jogador.idJogador == request.idJogador) return true;
+                }
             }
+            
             return false;
         }
         private bool JogadorExiste(int idJogador)

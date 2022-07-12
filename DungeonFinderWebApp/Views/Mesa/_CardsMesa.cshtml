@@ -1,0 +1,31 @@
+﻿@model List<DungeonFinderWebApp.Domain.Models.Response.MesaResponse>
+
+@if(Model != null)
+{
+   <div class="cards" style="margin : 5%">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach(var mesa in Model)
+            {
+                <div class="col">
+                    <div class="card">
+                      <img src="https://tm.ibxk.com.br/2022/04/14/14125007305279.jpg?ims=1200x675" class="card-img-top" alt="dnd">
+                      <div class="card-body">
+                        <h5 class="card-title">@mesa.Nome</h5>
+                        <p class="card-text "><em>@mesa.Descricao</em></p>
+                        <p class="card-text text-muted">@mesa.Sistema</p>
+                        <p class="card-text"><i class="fa fa-users"></i> @mesa.QtdMaxJogadores</p>
+                        <div class="d-grid gap-2 d-md-block">
+                          <a href="@Url.Action("MesaDetails","Mesa", new{idMesa = mesa.IdMesa})" class="btn btn-primary">Ver mais</a>
+                        </div>
+                      </div>
+                    </div>
+               </div>
+            }
+        </div>
+    </div>  
+}
+else
+{
+    <p class="text-muted">Nenhuma mesa encontrada!</p>
+}
+
