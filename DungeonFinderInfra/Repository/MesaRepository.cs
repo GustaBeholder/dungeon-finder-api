@@ -18,14 +18,14 @@ namespace DungeonFinderInfra.Repository
 
 
             string query = @"SELECT m.idMesa ,m.Nome, m.Descricao, count(1) over() as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre,
-                            m.isAtivo
+                            m.isAtivo, m.DisplayPic
                             FROM Mesa m
                             INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                             INNER JOIN Jogador j on(j.idJogador = m.idMestre)
                             where (@IdMesa = 0 or m.IdMesa = @IdMesa )
                             AND (@isAtivo < 0 or m.isAtivo = @isAtivo)
                             AND (@Sistema = 0 or m.idSistema = @Sistema)
-                            group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, m.IdMestre ,j.Nome, m.isAtivo";
+                            group By m.idMesa ,m.Nome, m.Descricao, m.QuantidadeMaxJogadres, s.Nome, m.IdMestre ,j.Nome, m.isAtivo, m.DisplayPic";
 
             try
             {
@@ -70,7 +70,8 @@ namespace DungeonFinderInfra.Repository
 
             string query = @"
                         SELECT m.idMesa ,m.Nome, m.Descricao, (SELECT COUNT(idJogador) FROM JogadorNaMesa
-                        where idMesa = @mesaId) as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre, m.isAtivo
+                        where idMesa = @mesaId) as QtdJogadores, m.QuantidadeMaxJogadres as QtdMaxJogadores, s.Nome as Sistema, m.IdMestre,j.Nome as Mestre, m.isAtivo,
+                        m.DisplayPic
                         FROM Mesa m
                         INNER JOIN Sistema s on(s.idSistema = m.idSistema)
                         INNER JOIN Jogador j on(j.idJogador = m.idMestre)
@@ -151,8 +152,8 @@ namespace DungeonFinderInfra.Repository
         {
             BaseResponse response = new BaseResponse();
 
-            string query = @"insert into Mesa (nome, descricao, quantidadeMaxJogadres, idMestre, idSistema, isAtivo) 
-                                values (@Nome, @descricao, @qtdMaxJogadores, @idMestre, @idSistema, 1)";
+            string query = @"insert into Mesa (nome, descricao, quantidadeMaxJogadres, idMestre, idSistema, isAtivo, displayPic) 
+                                values (@Nome, @descricao, @qtdMaxJogadores, @idMestre, @idSistema, 1, @DisplayPic)";
 
             try
             {
@@ -164,7 +165,8 @@ namespace DungeonFinderInfra.Repository
                         request.Descricao,
                         request.QtdMaxJogadores,
                         request.idMestre,
-                        request.idSistema
+                        request.idSistema,
+                        request.DisplayPic
 
                     }, commandTimeout: 20);
 

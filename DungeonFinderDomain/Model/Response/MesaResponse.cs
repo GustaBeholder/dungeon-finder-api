@@ -11,6 +11,7 @@
         public bool isAtivo { get; set; }
         public int IdMestre { get; set; }
         public string Mestre { get; set; }
+        public string DisplayPic { get; set; }
 
     }
 }

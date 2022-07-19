@@ -18,6 +18,13 @@
     <input type="number" class="form-control" id="qtdMaxJogadores">
 </div>
 
+<div class="mb-3">
+    <label class="form-label">Imagem</label>
+    <form id="uploadImg" method="post" enctype="multipart/form-data">
+        <input name="files" class="form-control" type="file" />
+    </form>
+</div>
+
 <select id="sistema" class="form-select">
     <option selected>Escolha um sistema</option>
 </select>
@@ -33,7 +40,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+    var profilePicture;
     function createMesa() {
+        uploadImg();
         $.ajax({
             url: '@Url.Action("CreateMesaFunc", "Mesa")',
             type: "POST",
@@ -45,7 +54,8 @@
                     descricao: $("#descricao").val(),
                     qtdMaxJogadores: $("#qtdMaxJogadores").val(),
                     idMestre: @Convert.ToInt32(User.FindFirst("JogadorId").Value),
-                    idSistema: $("#sistema").val()
+                    idSistema: $("#sistema").val(),
+                    displayPic: profilePicture
                 },
             },
             dataType: 'json',
@@ -64,6 +74,7 @@
             }
         });
     }
+    
     $("#criarMesa").click(function() {
         createMesa();
     });
@@ -89,4 +100,29 @@
     }
     loadData();
 
+    function uploadImg() {
+
+        var formData = new FormData(document.getElementById("uploadImg"));
+
+        var uploadResponse = null;
+
+        $.ajax({
+            url: '@Url.Action("UploadProilePic", "Mesa")',
+            type: 'POST',
+            async: false,
+            data: formData,
+            success: function(data) {
+                uploadResponse = data.message;
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+
+        });
+        if (uploadResponse == null) {
+            uploadResponse == "";
+        } else {
+            profilePicture = uploadResponse;
+        }
+    }
 </script>

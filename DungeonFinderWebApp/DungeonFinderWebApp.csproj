@@ -10,4 +10,9 @@
     <ProjectReference Include="..\DungeonFinderWebApp.Domain\DungeonFinderWebApp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\mesas\" />
+    <Folder Include="wwwroot\img\users\" />
+  </ItemGroup>
+
 </Project>

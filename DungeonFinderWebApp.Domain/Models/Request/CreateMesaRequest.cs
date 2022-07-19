@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace DungeonFinderWebApp.Domain.Models.Request
@@ -15,5 +16,7 @@ namespace DungeonFinderWebApp.Domain.Models.Request
         [Required]
         [Display(Name = "Sistema")]
         public int idSistema { get; set; }
+        public string DisplayPic { get; set; }
+
     }
 }

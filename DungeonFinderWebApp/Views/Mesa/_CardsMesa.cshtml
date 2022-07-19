@@ -8,7 +8,15 @@
             {
                 <div class="col">
                     <div class="card">
-                      <img src="https://tm.ibxk.com.br/2022/04/14/14125007305279.jpg?ims=1200x675" class="card-img-top" alt="dnd">
+                        @if(mesa.DisplayPic != null)
+                        {
+                            <img src="~/img/mesas/@mesa.DisplayPic" class="card-img-top" alt="@mesa.Descricao" style="width: 100%; height: 25vw; object-fit: fill;">
+                        }
+                        else
+                        {
+                            <img src="https://tm.ibxk.com.br/2022/04/14/14125007305279.jpg?ims=1200x675" class="card-img-top" alt="dnd" style="width: 100%; height: 25vw; object-fit: fill;">
+                        }
+
                       <div class="card-body">
                         <h5 class="card-title">@mesa.Nome</h5>
                         <p class="card-text "><em>@mesa.Descricao</em></p>

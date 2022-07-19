@@ -1,5 +1,6 @@
 ﻿using DungeonFinderWebApp.Domain.Interface.Services;
 using DungeonFinderWebApp.Domain.Models.Request;
+using DungeonFinderWebApp.Domain.Models.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,6 +65,49 @@ namespace DungeonFinderWebApp.Controllers
 
             return Json(response);
 
+        }
+
+        [HttpPost("UploadProilePic")]
+        public async Task<BaseResponse> UploadProilePic(IEnumerable<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            MemoryStream ms = new MemoryStream();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    formFile.OpenReadStream().CopyTo(ms);
+                    var data = ms.ToArray();
+
+                    CreateFileRequest request = new CreateFileRequest(formFile.FileName, data, formFile.ContentType);
+
+                    string fileName = CreateArquivo(request);
+
+                    BaseResponse response = new BaseResponse()
+                    {
+                        ErrorCode = 0,
+                        Message = fileName
+                    };
+
+                    return response;
+                }
+            }
+
+            return null;
+        }
+
+        public string CreateArquivo(CreateFileRequest request)
+        {
+            request.FileName = Guid.NewGuid().ToString();
+            string path = $"wwwroot\\img\\mesas\\{request.FileName}.{request.ContentType.Split("/")[1]}";
+            string fileName = $"{request.FileName}.{request.ContentType.Split("/")[1]}";
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                stream.Write(request.Data);
+            }
+            return fileName;
         }
     }
 }

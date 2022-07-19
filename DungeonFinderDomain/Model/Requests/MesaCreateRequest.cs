@@ -7,5 +7,6 @@
         public int QtdMaxJogadores { get; set; }
         public int idMestre { get; set; }
         public int idSistema { get; set; }
+        public string DisplayPic { get; set; }
     }
 }
