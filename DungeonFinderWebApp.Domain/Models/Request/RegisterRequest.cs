@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -20,5 +21,7 @@ namespace DungeonFinderWebApp.Domain.Models.Request
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "As Senhas não são iguais!")]
         public string ConfirmPassword { get; set; }
+        public string ProfilePic { get; set; }
+
     }
 }

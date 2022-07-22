@@ -26,6 +26,7 @@ namespace DungeonFinderWebApp.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
@@ -40,10 +41,11 @@ namespace DungeonFinderWebApp.Controllers
             ViewBag.Message = response.BaseResponse.Message;
             return View(request);
         }
+        
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<JsonResult> Register(RegisterRequest request)
         {
-            if (!ModelState.IsValid) return View(request);
+            if (!ModelState.IsValid) return Json(request);
             var response = await _loginService.Register(request);
 
             if(response.ErrorCode == 0)
@@ -55,10 +57,11 @@ namespace DungeonFinderWebApp.Controllers
                 };
                 var login = await _loginService.Login(loginRequest);
                 await RealizarLogin(login.Response) ;
-                return RedirectToAction("Index", "Mesa");
+                RedirectToAction("Index", "Mesa");
+                return Json(response);
             }
             ViewBag.Message = response.Message;
-            return View(request);
+            return Json(request);
         }
 
         public async Task<IActionResult> LogOut()
@@ -69,6 +72,49 @@ namespace DungeonFinderWebApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpPost("UploadProfilePic")]
+        public async Task<BaseResponse> UploadProfilePic(IEnumerable<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            MemoryStream ms = new MemoryStream();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    formFile.OpenReadStream().CopyTo(ms);
+                    var data = ms.ToArray();
+
+                    CreateFileRequest request = new CreateFileRequest(formFile.FileName, data, formFile.ContentType);
+
+                    string fileName = CreateArquivo(request);
+
+                    BaseResponse response = new BaseResponse()
+                    {
+                        ErrorCode = 0,
+                        Message = fileName
+                    };
+
+                    return response;
+                }
+            }
+
+            return null;
+        }
+
+        public string CreateArquivo(CreateFileRequest request)
+        {
+            request.FileName = Guid.NewGuid().ToString();
+            string path = $"wwwroot\\img\\users\\{request.FileName}.{request.ContentType.Split("/")[1]}";
+            string fileName = $"{request.FileName}.{request.ContentType.Split("/")[1]}";
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                stream.Write(request.Data);
+            }
+            return fileName;
+        }
 
         private async Task RealizarLogin(LoginResponse response)
         {
